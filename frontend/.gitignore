@@ -1,9 +1,7 @@
 # dependencies
 /node_modules
 
-# production
-/build
-public
+
 
 # misc
 .env
