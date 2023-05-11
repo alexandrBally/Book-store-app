@@ -24,6 +24,12 @@ jobs:
        ssh fusion@158.160.102.242  "cd ${{ secrets.WORK_DIR}} && git pull git@github.com:alexandrBally/action-clone-rep2.git && exit"
        ssh fusion@158.160.102.242  "cd ${{ secrets.WORK_DIR}} && docker compose down"
        ssh fusion@158.160.102.242  "cd ${{ secrets.WORK_DIR}} && docker compose up -d --build"
+       ssh fusion@158.160.102.242  "cd ${{ secrets.WORK_DIR}} && docker exec -i abale-backend npm run db:migrate:up"
+       ssh fusion@158.160.102.242  "cd ${{ secrets.WORK_DIR}} && docker exec -i abale-backend npm run db:seed"
+       
+       
+       
+       
 #       run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && exit"
 #     - name: cleanup
 #       run: rm -rf ~/.ssh
