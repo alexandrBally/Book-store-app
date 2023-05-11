@@ -20,17 +20,26 @@ jobs:
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
     - name: connect and pull
-      run: |
-        ssh fusion@158.160.102.242  "cd ${{ secrets.WORK_DIR}} && git clone git@github.com:alexandrBally/action-clone-rep2.git && exit"
+      run:  |
+       ssh fusion@158.160.102.242  "cd ${{ secrets.WORK_DIR}} && git pull git@github.com:alexandrBally/action-clone-rep2.git && exit"
+       ssh fusion@158.160.102.242  "cd ${{ secrets.WORK_DIR}} && docker compose down"
+       ssh fusion@158.160.102.242  "cd /home/fusion/elefteriadi/github-ci-cd/action-clone-rep2/frontend && npm i"
+       ssh fusion@158.160.102.242  "cd ${{ secrets.WORK_DIR}} && docker compose up -d --build"
+       ssh fusion@158.160.102.242  "cd ${{ secrets.WORK_DIR}} && docker exec -i abale-backend npm run db:migrate:up"
+       ssh fusion@158.160.102.242  "cd ${{ secrets.WORK_DIR}} && docker exec -i abale-backend npm run db:seed"
+       
+       
+       
+       
 #       run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && exit"
 #     - name: cleanup
 #       run: rm -rf ~/.ssh
-  deploy:
-    name: deploy-book-app
-    runs-on: ubuntu-latest
+#   deploy:
+#     name: deploy-book-app
+#     runs-on: ubuntu-latest
     
-    steps:
-      - name: connect and pull
-        run: |
-         ssh fusion@158.160.102.242  "cd ${{ secrets.WORK_DIR}} && docker compose up down  && exit"
-         ssh fusion@158.160.102.242  "cd ${{ secrets.WORK_DIR}} && docker compose up -d --build  && exit"
+#     steps:
+#       - name: connect and pull
+#         run: |
+#          ssh fusion@158.160.102.242  "cd ${{ secrets.WORK_DIR}} && docker compose up down  && exit"
+#          ssh fusion@158.160.102.242  "cd ${{ secrets.WORK_DIR}} && docker compose up -d --build  && exit"
