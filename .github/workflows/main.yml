@@ -28,6 +28,21 @@ jobs:
        ssh ${{ secrets.SSH_USER}}@${{ secrets.SSH_HOST}}  "cd ${{ secrets.WORK_DIR}} && docker exec -i abale-backend npm run db:migrate:up"
        ssh ${{ secrets.SSH_USER}}@${{ secrets.SSH_HOST}}  "cd ${{ secrets.WORK_DIR}} && docker exec -i abale-backend npm run db:seed"
        
+   
+    - name: send telegram message on push
+      uses: appleboy/telegram-action@master
+      with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.commits[0].message }}
+            
+            Repository: ${{ github.repository }}
+            
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+
+       
        
        
        
