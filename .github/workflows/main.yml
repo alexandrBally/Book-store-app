@@ -17,7 +17,7 @@ jobs:
       with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: "text"
+ 
           
     - name: install ssh keys
       # check this thread to understand why its needed:
